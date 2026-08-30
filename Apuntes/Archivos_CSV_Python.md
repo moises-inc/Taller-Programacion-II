@@ -1,14 +1,16 @@
 ---
-title: Archivos CSV en Python: Guía Maestra de Persistencia y Estructuración
+id: archivos-csv-python-guia-maestra
+title: "Archivos CSV en Python: Guía Maestra de Persistencia y Estructuración"
 asignatura: Taller de Programación II
 unidad: Unidad 1 — Manejo y Gestión de Archivos
 institucion: Universidad San Sebastián
 sede: Patagonia
 fecha: 2026-08-19
+status: completo
+tags: [apuntes, programacion, python, csv, persistencia, rfc4180, dictreader, dictwriter, uss]
 ---
 
-
-# 📊 Archivos CSV en Python: Guía Maestra de Persistencia y Estructuración
+#  Archivos CSV en Python: Guía Maestra de Persistencia y Estructuración
 
 > [!NOTE]
 > **Definición Fundamental y Propósito Pedagógico**  
@@ -16,34 +18,37 @@ fecha: 2026-08-19
 
 ---
 
-## 🏷️ Leyenda de Trazabilidad de Fuentes (Source Provenance Standard)
+##  Leyenda de Trazabilidad de Fuentes (Source Provenance Standard)
 
 Para garantizar la máxima claridad académica y distinguir el origen del conocimiento:
-* 🎓 `[Cátedra USS / Diapositivas Docente]`: Contenidos extraídos directamente de la presentación oficial `Presentacion_Archivos_CSV_Python.pdf` (enfoque manual con f-strings/split, módulo `csv`, `csv.writer`, `csv.reader`, `next()`, control de encabezados únicos, validación `try-except`, búsqueda `.lower()`, cálculos acumulativos de promedio, menú interactivo y actividad de aplicación `materiales.csv`).
-* 📖 `[Texto Guía / Documentación Oficial Python / RFC 4180]`: Profundizaciones técnicas sobre el estándar IETF RFC 4180, el parámetro `newline=""` en la función `open()`, abstracción de diccionarios con `csv.DictReader`/`csv.DictWriter` y configuración de dialectos.
-* 🌐 `[Enriquecimiento Web / Seguridad & Ecosistema]`: Prevención de vulnerabilidades de inyección de fórmulas (*CSV Formula Injection*), comparativa de escalabilidad frente a bibliotecas analíticas (Pandas/Polars) y optimización de entrada/salida.
+*  `[Cátedra USS / Diapositivas Docente]`: Contenidos extraídos directamente de la presentación oficial `Presentacion_Archivos_CSV_Python.pdf` (enfoque manual con f-strings/split, módulo `csv`, `csv.writer`, `csv.reader`, `next()`, control de encabezados únicos, validación `try-except`, búsqueda `.lower()`, cálculos acumulativos de promedio, menú interactivo y actividad de aplicación `materiales.csv`).
+*  `[Texto Guía / Documentación Oficial Python / RFC 4180]`: Profundizaciones técnicas sobre el estándar IETF RFC 4180, el parámetro `newline=""` en la función `open()`, abstracción de diccionarios con `csv.DictReader`/`csv.DictWriter` y configuración de dialectos.
+*  `[Enriquecimiento Web / Seguridad & Ecosistema]`: Prevención de vulnerabilidades de inyección de fórmulas (*CSV Formula Injection*), comparativa de escalabilidad frente a bibliotecas analíticas (Pandas/Polars) y optimización de entrada/salida.
 
 ---
 
-## 📑 Tabla de Contenidos
+##  Tabla de Contenidos
 
-1. [Anatomía y Fundamentos del Formato CSV](#1-anatomía-y-fundamentos-del-formato-csv-🎓-📖)
-2. [Enfoque 1: Manipulación Manual con Cadenas y Split](#2-enfoque-1-manipulación-manual-con-cadenas-y-split-🎓)
-3. [Enfoque 2: El Módulo Estándar csv y csv.writer](#3-enfoque-2-el-módulo-estándar-csv-y-csvwriter-🎓-📖)
-4. [Lectura Estructurada con csv.reader y Manejo de Encabezados](#4-lectura-estructurada-con-csvreader-y-manejo-de-encabezados-🎓-📖)
-5. [Abstracción Avanzada: csv.DictReader y csv.DictWriter](#5-abstracción-avanzada-csvdictreader-y-csvdictwriter-📖-🌐)
-6. [El Estándar IETF RFC 4180 y Reglas de Escapado](#6-el-estándar-ietf-rfc-4180-y-reglas-de-escapado-📖-🌐)
-7. [Manejo Defensivo: Creación de Encabezados Únicos y Validación](#7-manejo-defensivo-creación-de-encabezados-únicos-y-validación-🎓-📖)
-8. [Seguridad en Producción: Prevención de CSV Injection](#8-seguridad-en-producción-prevención-de-csv-injection-🌐)
-9. [Catálogo de Errores Frecuentes y Diagnóstico Rápido](#9-catálogo-de-errores-frecuentes-y-diagnóstico-rápido-🎓-📖)
-10. [Tabla Comparativa de Paradigmas](#10-tabla-comparativa-de-paradigmas-🎓-📖-🌐)
-11. [Caso Práctico Integral Modular: Sistema de Clientes USS](#11-caso-práctico-integral-modular-sistema-de-clientes-uss-🎓-📖)
-12. [Actividad de Aplicación: materiales.csv](#12-actividad-de-aplicación-materialescsv-🎓)
-13. [Batería de Preguntas de Autoevaluación Resueltas](#13-batería-de-preguntas-de-autoevaluación-resueltas-🎓-📖)
+1. [Anatomía y Fundamentos del Formato CSV](#1-anatomía-y-fundamentos-del-formato-csv--)
+2. [Enfoque 1: Manipulación Manual con Cadenas y Split](#2-enfoque-1-manipulación-manual-con-cadenas-y-split-)
+3. [Enfoque 2: El Módulo Estándar csv y csv.writer](#3-enfoque-2-el-módulo-estándar-csv-y-csvwriter--)
+4. [Lectura Estructurada con csv.reader y Manejo de Encabezados](#4-lectura-estructurada-con-csvreader-y-manejo-de-encabezados--)
+5. [Abstracción Avanzada: csv.DictReader y csv.DictWriter](#5-abstracción-avanzada-csvdictreader-y-csvdictwriter--)
+6. [El Estándar IETF RFC 4180 y Reglas de Escapado](#6-el-estándar-ietf-rfc-4180-y-reglas-de-escapado--)
+7. [Manejo Defensivo: Creación de Encabezados Únicos y Validación](#7-manejo-defensivo-creación-de-encabezados-únicos-y-validación--)
+8. [Seguridad en Producción: Prevención de CSV Injection](#8-seguridad-en-producción-prevención-de-csv-injection-)
+9. [Catálogo de Errores Frecuentes y Diagnóstico Rápido](#9-catálogo-de-errores-frecuentes-y-diagnóstico-rápido--)
+10. [Tabla Comparativa de Paradigmas](#10-tabla-comparativa-de-paradigmas---)
+11. [Análisis de Soluciones de Cátedra](#11-análisis-de-soluciones-de-cátedra-soluciones_docente-)
+12. [Ejercicio Integral Industrial: Registro de Condiciones de Máquinas](#12-ejercicio-integral-industrial-registro-de-condiciones-de-máquinas--)
+13. [Caso Práctico Integral Modular: Sistema de Clientes USS](#13-caso-práctico-integral-modular-sistema-de-clientes-uss--)
+14. [Actividad de Aplicación: materiales.csv](#14-actividad-de-aplicación-materialescsv-)
+15. [Batería de Preguntas de Autoevaluación Resueltas](#15-batería-de-preguntas-de-autoevaluación-resueltas--)
+16. [Conexiones del Grafo (SCC=1)](#16-conexiones-del-grafo-scc1)
 
 ---
 
-## 1. Anatomía y Fundamentos del Formato CSV 🎓 📖
+## 1. Anatomía y Fundamentos del Formato CSV  
 
 ### 1.1 Representación Isomórfica: Tabla vs. Texto Plano
 Un archivo CSV no es un formato binario ni propietario; es simplemente texto plano legible por humanos que posee una correspondencia biunívoca con una tabla de dos dimensiones:
@@ -71,29 +76,32 @@ El delimitador es un carácter especial acordado que demarca dónde finaliza un 
 * En entornos hispanohablantes y configuraciones regionales de Windows/Excel (donde la coma se reserva como separador decimal matemático `3,14`), se utiliza comúnmente el **punto y coma** (`;`).
 
 > [!IMPORTANT]
-> **Principio de Claridad Conceptual 🎓**  
+> **Principio de Claridad Conceptual **  
 > El punto y coma (`;`) **no es una columna**: es únicamente la frontera sintáctica de separación entre campos.
 
 ---
 
-## 2. Enfoque 1: Manipulación Manual con Cadenas y Split 🎓
+## 2. Enfoque 1: Manipulación Manual con Cadenas y Split 
 
 El enfoque manual permite comprender la mecánica de bajo nivel de cómo viajan los bytes entre la memoria RAM y el disco físico antes de utilizar bibliotecas de abstracción.
 
 ### 2.1 Flujo de Escritura Manual (f-strings + Modo `'a'`)
 1. **Definir el orden y contrato de campos:** `Producto ; Cantidad ; Precio`.
 2. **Construir la cadena con salto de línea explícito (`\n`):**
-   ```python
-   producto = "Pan amasado"
-   cantidad = 3
-   precio = 2500
-   linea = f"{producto};{cantidad};{precio}\n"
-   ```
+
+```python
+producto = "Pan amasado"
+cantidad = 3
+precio = 2500
+linea = f"{producto};{cantidad};{precio}\n"
+```
+
 3. **Abrir en modo Append (`'a'`) con codificación UTF-8:**
-   ```python
-   with open("productos.csv", "a", encoding="utf-8") as archivo:
-       archivo.write(linea)
-   ```
+
+```python
+with open("productos.csv", "a", encoding="utf-8") as archivo:
+    archivo.write(linea)
+```
 
 ### 2.2 Flujo de Lectura Manual (`for linea in archivo`, `strip()` y `split(';')`)
 1. **Apertura en modo lectura (`'r'`):**
@@ -116,14 +124,14 @@ with open("productos.csv", "r", encoding="utf-8") as archivo:
         print(f"Producto: {producto:<15} | Cantidad: {cantidad:>2} | Total: ${total:>6,}")
 ```
 
-### 2.3 Limitaciones Críticas del Enfoque Manual 📖 🌐
+### 2.3 Limitaciones Críticas del Enfoque Manual  
 ¿Por qué no es recomendable el enfoque manual en aplicaciones de producción?
 * **Fragilidad ante delimitadores embebidos:** Si un producto se llama `"Pack; Desayuno"`, la función `split(";")` dividirá la cadena en 4 fragmentos en lugar de 3, rompiendo la estructura de columnas y causando un fallo en el casting `int("Desayuno")` (`ValueError`).
 * **Incompatibilidad con comillas dobles y saltos de línea multilínea.**
 
 ---
 
-## 3. Enfoque 2: El Módulo Estándar `csv` y `csv.writer` 🎓 📖
+## 3. Enfoque 2: El Módulo Estándar `csv` y `csv.writer`  
 
 Python incluye de forma nativa en su biblioteca estándar el módulo `csv` (no requiere instalación mediante `pip`), el cual implementa las reglas de análisis y serialización de archivos delimitados.
 
@@ -131,7 +139,7 @@ Python incluye de forma nativa en su biblioteca estándar el módulo `csv` (no r
 import csv
 ```
 
-### 3.1 La Importancia Crucial de `newline=""` en `open()` 📖
+### 3.1 La Importancia Crucial de `newline=""` en `open()` 
 Al abrir un archivo para ser utilizado por el módulo `csv`, es **obligatorio** especificar `newline=""` en la función `open()`:
 
 ```python
@@ -142,7 +150,7 @@ with open("productos.csv", "w", newline="", encoding="utf-8") as archivo:
 ```
 
 > [!WARNING]
-> **¿Por qué es indispensable `newline=""`? 📖**  
+> **¿Por qué es indispensable `newline=""`? **  
 > En los sistemas operativos Windows, el fin de línea estándar es `\r\n` (CRLF). Si no se indica `newline=""`, la capa de entrada/salida de texto de Python traduce automáticamente cada `\n` emitido por el módulo `csv` a `\r\r\n`, generando **filas en blanco vacías intercaladas** entre cada registro del archivo CSV. Con `newline=""`, Python delega el control total de los terminadores de línea al módulo `csv`.
 
 ### 3.2 Métodos Principales de `csv.writer`
@@ -165,7 +173,7 @@ with open("productos.csv", "w", newline="", encoding="utf-8") as archivo:
 
 ---
 
-## 4. Lectura Estructurada con `csv.reader` y Manejo de Encabezados 🎓 📖
+## 4. Lectura Estructurada con `csv.reader` y Manejo de Encabezados  
 
 El objeto `csv.reader` es un iterador eficiente que lee el archivo en streaming ($\mathcal{O}(1)$ en memoria RAM), devolviendo automáticamente cada registro deserializado como una lista de cadenas (`list[str]`).
 
@@ -202,7 +210,7 @@ Item: Jugo Natural    -> Total: $ 2,200
 
 ---
 
-## 5. Abstracción Avanzada: `csv.DictReader` y `csv.DictWriter` 📖 🌐
+## 5. Abstracción Avanzada: `csv.DictReader` y `csv.DictWriter`  
 
 Aunque la cátedra comienza con listas posicionales (`fila[0]`, `fila[1]`), en el desarrollo de software profesional se recomienda el uso de **diccionarios**, pues eliminan el acoplamiento a índices numéricos fijos.
 
@@ -242,7 +250,7 @@ with open("productos.csv", "a", newline="", encoding="utf-8") as archivo:
 
 ---
 
-## 6. El Estándar IETF RFC 4180 y Reglas de Escapado 📖 🌐
+## 6. El Estándar IETF RFC 4180 y Reglas de Escapado  
 
 La especificación técnica internacional **RFC 4180** establece el estándar universal para la interoperabilidad de archivos CSV:
 
@@ -268,7 +276,7 @@ print(buffer.getvalue())
 
 ---
 
-## 7. Manejo Defensivo: Creación de Encabezados Únicos y Validación 🎓 📖
+## 7. Manejo Defensivo: Creación de Encabezados Únicos y Validación  
 
 Uno de los requerimientos más importantes de la cátedra es asegurar que los **encabezados se escriban una sola vez** cuando el archivo es creado, y que no se dupliquen cada vez que un usuario ingresa un nuevo registro.
 
@@ -291,7 +299,7 @@ def inicializar_archivo_clientes() -> None:
         print(f"Archivo '{ARCHIVO_CLIENTES}' ya existe. Listo para registrar datos.")
 ```
 
-### 7.2 Validación Robusta de Entradas antes de la Persistencia 🎓
+### 7.2 Validación Robusta de Entradas antes de la Persistencia 
 Para evitar contaminar el archivo persistente con registros corruptos o incompletos, se debe validar rigurosamente en memoria:
 
 ```python
@@ -317,10 +325,10 @@ def validar_datos_cliente(nombre: str, edad_str: str, ciudad: str) -> tuple[bool
 
 ---
 
-## 8. Seguridad en Producción: Prevención de CSV Injection 🌐
+## 8. Seguridad en Producción: Prevención de CSV Injection 
 
 > [!CAUTION]
-> **Vulnerabilidad de Seguridad: CSV Injection / Formula Injection 🌐**  
+> **Vulnerabilidad de Seguridad: CSV Injection / Formula Injection **  
 > Cuando un archivo CSV generado por una aplicación web o script es abierto por un usuario en Microsoft Excel o LibreOffice Calc, cualquier celda que comience con los caracteres `=`, `+`, `-`, `@`, `\t` o `\r` es interpretada automáticamente por la planilla como una **fórmula o comando dinámico de sistema** (ej. `=CMD|' /C calc'!A0` o `=HYPERLINK(...)`).
 
 ### 8.1 Técnica de Mitigación y Sanitización
@@ -338,7 +346,7 @@ def sanitizar_campo_csv(valor: str) -> str:
 
 ---
 
-## 9. Catálogo de Errores Frecuentes y Diagnóstico Rápido 🎓 📖
+## 9. Catálogo de Errores Frecuentes y Diagnóstico Rápido  
 
 ```mermaid
 flowchart TD
@@ -367,26 +375,26 @@ flowchart TD
 
 ---
 
-## 10. Tabla Comparativa de Paradigmas 🎓 📖 🌐
+## 10. Tabla Comparativa de Paradigmas   
 
 | Característica | Enfoque Manual (`split`/`write`) | Módulo `csv.writer` / `reader` | `csv.DictReader` / `DictWriter` | Bibliotecas de Análisis (Pandas/Polars) |
 | :--- | :---: | :---: | :---: | :---: |
 | **Instalación requerida** | Ninguna (Nativo) | Ninguna (Biblioteca Estándar) | Ninguna (Biblioteca Estándar) | `pip install pandas polars` |
-| **Cumplimiento RFC 4180** | ❌ No (Frágil ante comillas/`;`) | ✅ Total (Robusto y Automático) | ✅ Total (Robusto y Automático) | ✅ Total y Avanzado |
+| **Cumplimiento RFC 4180** |  No (Frágil ante comillas/`;`) |  Total (Robusto y Automático) |  Total (Robusto y Automático) |  Total y Avanzado |
 | **Estructura de Datos** | Lista de cadenas `str` | Lista posicional `fila[0]` | Diccionario nominal `fila['Col']` | DataFrame columnar en RAM |
 | **Uso de Memoria RAM** | $\mathcal{O}(1)$ en streaming | $\mathcal{O}(1)$ en streaming | $\mathcal{O}(1)$ en streaming | $\mathcal{O}(N)$ (Carga dataset completo) |
 | **Recomendación Cátedra** | Para entender el formato base | **Recomendado para Evaluaciones** | **Recomendado para Proyectos** | Para Ciencia de Datos y Big Data |
 
 ---
 
-## 11. Análisis de Soluciones de Cátedra (Soluciones_Docente) 🎓
+## 11. Análisis de Soluciones de Cátedra (Soluciones_Docente) 
 
 El repositorio del ramo incluye resoluciones oficiales aportadas por el equipo docente para el manejo modular de CSV:
 
-### 11.1 Ejercicio 2.6: Gestor de Productos (`gestor_csv.py`) 🎓
+### 11.1 Ejercicio 2.6: Gestor de Productos (`gestor_csv.py`) 
 En este módulo docente se implementan dos funciones esenciales: `crear_archivo(nombre_archivo, encabezados)` que usa `os.path.exists()` para evitar duplicar cabeceras en modo `'w'`, y `registrar_producto()` que abre en modo `'a'` con `newline=""` y `encoding="utf-8"`.
 
-### 11.2 Ejercicio 2.7: Gestor de Sensores e Inspección con Rangos Físicos (`gestor_sensores.py`) 🎓
+### 11.2 Ejercicio 2.7: Gestor de Sensores e Inspección con Rangos Físicos (`gestor_sensores.py`) 
 La contribución pedagógica principal de este ejercicio docente es la función de filtro `validar_medicion(datos)`:
 ```python
 def validar_medicion(datos):
@@ -406,7 +414,7 @@ def validar_medicion(datos):
 ```
 Garantiza que la persistencia en disco solo reciba lecturas físicamente coherentes.
 
-### 11.3 Ejercicio 2.8: Gestor de Mantenciones con Estampa Temporal Automática (`gestor_mantenciones.py`) 🎓
+### 11.3 Ejercicio 2.8: Gestor de Mantenciones con Estampa Temporal Automática (`gestor_mantenciones.py`) 
 Este módulo demuestra el acoplamiento del módulo estándar `datetime`:
 ```python
 from datetime import datetime
@@ -420,12 +428,12 @@ def agregar_mantencion(nombre_archivo, datos_mantencion):
 ```
 Evita que el usuario tenga que ingresar manualmente la fecha de revisión, garantizando uniformidad en el archivo `.csv`.
 
-### 11.4 Inventario de Materiales (`inventario_materiales.py`) 🎓
+### 11.4 Inventario de Materiales (`inventario_materiales.py`) 
 Destaca el uso defensivo de `os.makedirs("datos", exist_ok=True)` y el descarte seguro del encabezado usando `encabezados = next(lector, None)` que no falla si el archivo está vacío.
 
 ---
 
-## 12. Ejercicio Integral Industrial: Registro de Condiciones de Máquinas 🎓 📖
+## 12. Ejercicio Integral Industrial: Registro de Condiciones de Máquinas  
 
 Basado en la nueva guía docente **`Guia_Ejercicio_Integral_CSV_Maquinas_Industriales.pdf`**, este problema requiere registrar las condiciones de máquinas en un archivo `datos/registro_maquinas.csv` (delimitador `;`).
 
@@ -448,7 +456,7 @@ def evaluar_estado_maquina(temperatura: int, horas: int) -> str:
 
 ---
 
-## 13. Caso Práctico Integral Modular: Sistema de Clientes USS 🎓 📖
+## 13. Caso Práctico Integral Modular: Sistema de Clientes USS  
 
 A continuación se presenta la implementación del sistema de gestión de clientes desarrollado durante la sesión teórica, modularizado mediante funciones de responsabilidad única, control de flujo interactivo y validaciones defensivas.
 
@@ -627,7 +635,7 @@ if __name__ == "__main__":
 
 ---
 
-## 12. Actividad de Aplicación: `materiales.csv` 🎓
+## 14. Actividad de Aplicación: `materiales.csv` 
 
 En la diapositiva 32 de la cátedra se propone la siguiente actividad de aplicación:
 1. Crear el archivo `materiales.csv` con encabezado `Material;Cantidad;Costo`.
@@ -660,7 +668,7 @@ with ARCHIVO_MATERIALES.open("w", newline="", encoding="utf-8") as f:
     escritor.writerow(["Material", "Cantidad", "Costo"])
     escritor.writerows(materiales_iniciales)
 
-print("✅ Archivo 'materiales.csv' generado con 4 materiales.\n")
+print(" Archivo 'materiales.csv' generado con 4 materiales.\n")
 
 # 2. Lectura estructurada con csv.reader y balance presupuestario
 costo_total_obra = 0
@@ -689,7 +697,7 @@ print(f"{'PRESUPUESTO TOTAL ACUMULADO:':<49}{f'$ {costo_total_obra:,}':>16}")
 
 ---
 
-## 13. Batería de Preguntas de Autoevaluación Resueltas 🎓 📖
+## 15. Batería de Preguntas de Autoevaluación Resueltas  
 
 <details>
 <summary><b>Pregunta 1 — ¿Por qué es estrictamente necesario el parámetro newline='' al invocar open() con el módulo csv?</b></summary>

@@ -1,40 +1,42 @@
 ---
-title: Nota Maestra: Manejo y Gestión Exhaustiva de Archivos en Python
+id: manejo-archivos-python-tp2
+title: "Nota Maestra: Manejo y Gestión Exhaustiva de Archivos en Python"
 asignatura: Taller de Programación II
 unidad: Unidad 1 — Manejo y Gestión de Archivos
 fecha: 2026-08-12
+tags: [python, archivos, io, persistencia, context-manager, buffers, crud, diccionarios, taller_programacion_ii, unidad1, nota-maestra]
+status: activo
 ---
 
-
-# 🗂️ Nota Maestra: Manejo y Gestión Exhaustiva de Archivos en Python
+#  Nota Maestra: Manejo y Gestión Exhaustiva de Archivos en Python
 
 > [!NOTE] Leyenda de Trazabilidad y Demarcación de Fuentes
-> * 🎓 `[Cátedra USS / Diapositivas Docente]`: Contenidos de las presentaciones de la Unidad 1, guía de control de producción y solución oficial docente de registro de ventas (`solucion_ventas.py`).
-> * 📖 `[Texto Guía — FIUBA / Batista & Carlevaro]`: Fundamentos algorítmicos, descriptores de archivos, corte de control, apareo de archivos y serialización avanzada.
-> * 🌐 `[Enriquecimiento Web / Documentación Oficial Python]`: Especificaciones PEP 343, estándares POSIX, I/O Buffering en CPython, codificación UTF-8 e ingeniería de software defensiva.
+> *  `[Cátedra USS / Diapositivas Docente]`: Contenidos de las presentaciones de la Unidad 1, guía de control de producción y solución oficial docente de registro de ventas (`solucion_ventas.py`).
+> *  `[Texto Guía — FIUBA / Batista & Carlevaro]`: Fundamentos algorítmicos, descriptores de archivos, corte de control, apareo de archivos y serialización avanzada.
+> *  `[Enriquecimiento Web / Documentación Oficial Python]`: Especificaciones PEP 343, estándares POSIX, I/O Buffering en CPython, codificación UTF-8 e ingeniería de software defensiva.
 
 ---
 
-## 📑 Tabla de Contenidos
+##  Tabla de Contenidos
 
-1. [1. Fundamentos Arquitectónicos de la Persistencia de Datos](#1-fundamentos-arquitectónicos-de-la-persistencia-de-datos)
-2. [2. El Protocolo Context Manager (with open) y Gestión Determinista de Recursos](#2-el-protocolo-context-manager-with-open-y-gestión-determinista-de-recursos)
-3. [3. Taxonomía Exhaustiva de Modos de Apertura de Archivos](#3-taxonomía-exhaustiva-de-modos-de-apertura-de-archivos)
-4. [4. Anatomía y Control del Puntero de Archivo (seek y tell)](#4-anatomía-y-control-del-puntero-de-archivo-seek-y-tell)
-5. [5. Estrategias de Lectura y Eficiencia de Memoria O(1)](#5-estrategias-de-lectura-y-eficiencia-de-memoria-o1)
-6. [6. Formatos Delimitados, Limpieza y Mapeo Bidireccional a Diccionarios](#6-formatos-delimitados-limpieza-y-mapeo-bidireccional-a-diccionarios)
-7. [7. Mecánica CRUD en Archivos Planos: Modificación y Eliminación Atómica](#7-mecánica-crud-en-archivos-planos-modificación-y-eliminación-atómica)
-8. [8. Rutas Orientadas a Objetos con pathlib.Path vs os.path](#8-rutas-orientadas-a-objetos-con-pathlibpath-vs-ospath)
-9. [9. Técnicas Avanzadas de Procesamiento Masivo (Corte de Control, Apareo y JSON)](#9-técnicas-avanzadas-de-procesamiento-masivo-corte-de-control-apareo-y-json)
-10. [10. Casos de Estudio Integrales: Producción Industrial y Registro de Ventas](#10-casos-de-estudio-integrales-producción-industrial-y-registro-de-ventas)
-11. [11. Diagnóstico, Jerarquía de Excepciones y Filosofía EAFP](#11-diagnóstico-jerarquía-de-excepciones-y-filosofía-eafp)
-12. [12. Batería de Autoevaluación y Preguntas de Reflexión Resueltas](#12-batería-de-autoevaluación-y-preguntas-de-reflexión-resueltas)
+1. [1. Fundamentos Arquitectónicos de la Persistencia de Datos](#1. Fundamentos Arquitectónicos de la Persistencia de Datos.md)
+2. [2. El Protocolo Context Manager (with open) y Gestión Determinista de Recursos](#2. El Protocolo Context Manager (with open) y Gestión Determinista de Recursos.md)
+3. [3. Taxonomía Exhaustiva de Modos de Apertura de Archivos](#3. Taxonomía Exhaustiva de Modos de Apertura de Archivos.md)
+4. [4. Anatomía y Control del Puntero de Archivo (seek y tell)](#4. Anatomía y Control del Puntero de Archivo (seek y tell).md)
+5. [5. Estrategias de Lectura y Eficiencia de Memoria O(1)](#5. Estrategias de Lectura y Eficiencia de Memoria O(1).md)
+6. [6. Formatos Delimitados, Limpieza y Mapeo Bidireccional a Diccionarios](#6. Formatos Delimitados, Limpieza y Mapeo Bidireccional a Diccionarios.md)
+7. [7. Mecánica CRUD en Archivos Planos: Modificación y Eliminación Atómica](#7. Mecánica CRUD en Archivos Planos: Modificación y Eliminación Atómica.md)
+8. [8. Rutas Orientadas a Objetos con pathlib.Path vs os.path](#8. Rutas Orientadas a Objetos con pathlib.Path vs os.path.md)
+9. [9. Técnicas Avanzadas de Procesamiento Masivo (Corte de Control, Apareo y JSON)](#9. Técnicas Avanzadas de Procesamiento Masivo (Corte de Control, Apareo y JSON).md)
+10. [10. Casos de Estudio Integrales: Producción Industrial y Registro de Ventas](#10. Casos de Estudio Integrales: Producción Industrial y Registro de Ventas.md)
+11. [11. Diagnóstico, Jerarquía de Excepciones y Filosofía EAFP](#11. Diagnóstico, Jerarquía de Excepciones y Filosofía EAFP.md)
+12. [12. Batería de Autoevaluación y Preguntas de Reflexión Resueltas](#12. Batería de Autoevaluación y Preguntas de Reflexión Resueltas.md)
 
 ---
 
 ## 1. Fundamentos Arquitectónicos de la Persistencia de Datos
 
-### 1.1 Jerarquía de Memoria: Memoria RAM vs. Almacenamiento Secundario 🎓 🌐
+### 1.1 Jerarquía de Memoria: Memoria RAM vs. Almacenamiento Secundario  
 En la ejecución de cualquier programa en Python, existe una distinción física y conceptual fundamental entre los dos niveles de almacenamiento del computador:
 
 ```
@@ -57,13 +59,13 @@ En la ejecución de cualquier programa en Python, existe una distinción física
 > [!IMPORTANT] Principio Fundamental de Persistencia
 > Las estructuras de datos en memoria (`list`, `dict`, `set`) se utilizan para la **manipulación algorítmica y procesamiento en tiempo real**. Los archivos en disco se utilizan para garantizar la **persistencia del estado** del sistema de información entre distintas ejecuciones.
 
-### 1.2 ¿Qué es un Archivo para el Sistema Operativo? Streams y File Descriptors 📖 🌐
+### 1.2 ¿Qué es un Archivo para el Sistema Operativo? Streams y File Descriptors  
 A nivel del Kernel (Linux, macOS, Windows), un archivo es una **secuencia lineal continua de bytes** (*stream*). Cuando un proceso solicita abrir un archivo mediante la llamada al sistema (`sys_open`), el sistema operativo:
 1. Localiza los bloques físicos correspondientes en el sistema de archivos (ext4, NTFS, APFS).
 2. Asigna una entrada en la tabla de archivos abiertos del proceso y devuelve un número entero no negativo denominado **Descriptor de Archivo** (*File Descriptor* en sistemas POSIX o *Handle* en Windows).
 3. Mantiene un **Puntero de Archivo** (*File Pointer / Cursor*) que indica el desplazamiento exacto (*offset*) en bytes donde ocurrirá la próxima operación de lectura o escritura.
 
-### 1.3 Búferes de Entrada/Salida (*I/O Buffering*) 📖 🌐
+### 1.3 Búferes de Entrada/Salida (*I/O Buffering*)  
 Escribir directamente al disco físico byte por byte es una operación de altísimo costo computacional. Por ello, la biblioteca estándar de CPython implementa **búferes en memoria**:
 * Cuando ejecutas `archivo.write("texto")`, Python **no escribe de inmediato en el disco físico**; deposita los bytes en un búfer intermedio en la memoria RAM (típicamente de 4 KB u 8 KB).
 * Los datos se vuelcan (*flush*) físicamente al disco cuando:
@@ -82,11 +84,11 @@ flowchart LR
 
 ## 2. El Protocolo Context Manager (with open) y Gestión Determinista de Recursos
 
-### 2.1 El Ciclo Clásico `open()` / `close()` y el Peligro de Fugas de Recursos 🎓 📖
+### 2.1 El Ciclo Clásico `open()` / `close()` y el Peligro de Fugas de Recursos  
 En versiones tempranas de programación en C y Python tradicional, el manejo de archivos dependía de invocar manualmente `close()`:
 
 ```python
-# ❌ ENFOQUE TRADICIONAL ANTIGUO (Propenso a fallas y bloqueos)
+#  ENFOQUE TRADICIONAL ANTIGUO (Propenso a fallas y bloqueos)
 archivo = open("datos.txt", "r", encoding="utf-8")
 contenido = archivo.read()
 # Si ocurre una excepción entre open() y close(), esta línea NUNCA se ejecuta:
@@ -95,11 +97,11 @@ archivo.close()
 
 Si ocurre un error inesperado (como `ValueError`, `ZeroDivisionError` o corte de energía), el descriptor de archivo queda abierto en el Kernel, generando una **fuga de descriptores** (*File Descriptor Leak*) que puede bloquear el archivo para otros procesos o agotar el límite de archivos del sistema operativo (`ulimit -n`).
 
-### 2.2 Mecánica Interna del Context Manager (`PEP 343`) 📖 🌐
+### 2.2 Mecánica Interna del Context Manager (`PEP 343`)  
 La instrucción `with` implementa el patrón **Context Manager** formalizado en la especificación **PEP 343**:
 
 ```python
-# ✅ ENFOQUE MODERNO Y ROBUSTO (Administrador de Contexto)
+#  ENFOQUE MODERNO Y ROBUSTO (Administrador de Contexto)
 with open("datos/produccion.txt", "r", encoding="utf-8") as archivo:
     contenido = archivo.read()
 # Al salir de la sangría, el archivo se cierra de forma INCONDICIONAL.
@@ -110,7 +112,7 @@ with open("datos/produccion.txt", "r", encoding="utf-8") as archivo:
 2. Al finalizar el bloque (ya sea por término normal, un `return` anticipado o una excepción `Exception`), Python invoca indefectiblemente `archivo.__exit__(exc_type, exc_val, exc_tb)`.
 3. El método `__exit__` ejecuta internamente `flush()` y `close()`, liberando el descriptor en el Kernel incluso si el programa colapsa.
 
-### 2.3 El Parámetro `encoding="utf-8"` y la Traducción Universal de Saltos (`newline`) 🎓 🌐
+### 2.3 El Parámetro `encoding="utf-8"` y la Traducción Universal de Saltos (`newline`)  
 * **Codificación UTF-8:** Define cómo se traducen los caracteres tipográficos a secuencias de bytes. Omitir `encoding="utf-8"` hace que Python utilice la codificación regional por defecto (`locale.getpreferredencoding()`), la cual en Windows suele ser `cp1252` o `latin-1`, provocando errores inmediatos `UnicodeDecodeError` al procesar tildes (`á`, `é`), eñes (`ñ`) o caracteres especiales.
 * **Saltos de Línea Universales:** En Linux y macOS el salto de línea es `\n` (*Line Feed*, `LF`), mientras que en Windows es `\r\n` (*Carriage Return + Line Feed*, `CRLF`). Por defecto, en modo texto Python normaliza automáticamente todos los saltos a `\n` al leer, y los traduce al formato nativo del sistema operativo al escribir.
 
@@ -120,24 +122,24 @@ with open("datos/produccion.txt", "r", encoding="utf-8") as archivo:
 
 Al invocar `open(ruta, modo, encoding="utf-8")`, el parámetro `modo` define la intención operativa, los permisos de lectura/escritura y el comportamiento del puntero:
 
-### 3.1 Tabla Maestra Comparativa de los 14 Modos de Apertura 🎓 📖 🌐
+### 3.1 Tabla Maestra Comparativa de los 14 Modos de Apertura   
 
 | Modo | Nombre Operativo | Lectura | Escritura | ¿Crea archivo si no existe? | Comportamiento con Contenido Existente | Posición Inicial del Puntero |
 | :---: | :--- | :---: | :---: | :---: | :--- | :---: |
-| `'r'` | Lectura de texto | ✅ Sí | ❌ No | ❌ Lanza `FileNotFoundError` | Preserva el contenido intacto | Inicio (byte 0) |
-| `'w'` | Escritura de texto | ❌ No | ✅ Sí | ✅ Sí lo crea | ⚠️ **TRUNCA A 0 BYTES (Borra todo de inmediato)** | Inicio (byte 0) |
-| `'a'` | Anexar texto (*Append*) | ❌ No | ✅ Sí | ✅ Sí lo crea | ✅ **Preserva el contenido** | **Final del archivo** |
-| `'x'` | Creación exclusiva texto | ❌ No | ✅ Sí | ✅ Sí lo crea | ⚠️ **Lanza `FileExistsError` si ya existe** | Inicio (byte 0) |
-| `'r+'`| Lectura y actualización | ✅ Sí | ✅ Sí | ❌ Lanza `FileNotFoundError` | ✅ **Preserva el contenido** | Inicio (byte 0) |
-| `'w+'`| Escritura y lectura | ✅ Sí | ✅ Sí | ✅ Sí lo crea | ⚠️ **TRUNCA A 0 BYTES (Borra todo al abrir)** | Inicio (byte 0) |
-| `'a+'`| Anexar y lectura | ✅ Sí | ✅ Sí | ✅ Sí lo crea | ✅ **Preserva el contenido** | Final (escrituras siempre al final) |
-| `'rb'`| Lectura binaria | ✅ Sí | ❌ No | ❌ Lanza `FileNotFoundError` | Preserva bytes intactos | Inicio (byte 0) |
-| `'wb'`| Escritura binaria | ❌ No | ✅ Sí | ✅ Sí lo crea | ⚠️ **TRUNCA A 0 BYTES** | Inicio (byte 0) |
-| `'ab'`| Anexar binario | ❌ No | ✅ Sí | ✅ Sí lo crea | ✅ **Preserva bytes anteriores** | Final del archivo |
-| `'xb'`| Creación exclusiva binaria | ❌ No | ✅ Sí | ✅ Sí lo crea | ⚠️ **Lanza `FileExistsError`** | Inicio (byte 0) |
-| `'r+b'`| Lectura/escritura binaria | ✅ Sí | ✅ Sí | ❌ Lanza `FileNotFoundError` | ✅ **Preserva bytes anteriores** | Inicio (byte 0) |
-| `'w+b'`| Escritura/lectura binaria | ✅ Sí | ✅ Sí | ✅ Sí lo crea | ⚠️ **TRUNCA A 0 BYTES** | Inicio (byte 0) |
-| `'a+b'`| Anexar/lectura binaria | ✅ Sí | ✅ Sí | ✅ Sí lo crea | ✅ **Preserva bytes anteriores** | Final del archivo |
+| `'r'` | Lectura de texto |  Sí |  No |  Lanza `FileNotFoundError` | Preserva el contenido intacto | Inicio (byte 0) |
+| `'w'` | Escritura de texto |  No |  Sí |  Sí lo crea |  **TRUNCA A 0 BYTES (Borra todo de inmediato)** | Inicio (byte 0) |
+| `'a'` | Anexar texto (*Append*) |  No |  Sí |  Sí lo crea |  **Preserva el contenido** | **Final del archivo** |
+| `'x'` | Creación exclusiva texto |  No |  Sí |  Sí lo crea |  **Lanza `FileExistsError` si ya existe** | Inicio (byte 0) |
+| `'r+'`| Lectura y actualización |  Sí |  Sí |  Lanza `FileNotFoundError` |  **Preserva el contenido** | Inicio (byte 0) |
+| `'w+'`| Escritura y lectura |  Sí |  Sí |  Sí lo crea |  **TRUNCA A 0 BYTES (Borra todo al abrir)** | Inicio (byte 0) |
+| `'a+'`| Anexar y lectura |  Sí |  Sí |  Sí lo crea |  **Preserva el contenido** | Final (escrituras siempre al final) |
+| `'rb'`| Lectura binaria |  Sí |  No |  Lanza `FileNotFoundError` | Preserva bytes intactos | Inicio (byte 0) |
+| `'wb'`| Escritura binaria |  No |  Sí |  Sí lo crea |  **TRUNCA A 0 BYTES** | Inicio (byte 0) |
+| `'ab'`| Anexar binario |  No |  Sí |  Sí lo crea |  **Preserva bytes anteriores** | Final del archivo |
+| `'xb'`| Creación exclusiva binaria |  No |  Sí |  Sí lo crea |  **Lanza `FileExistsError`** | Inicio (byte 0) |
+| `'r+b'`| Lectura/escritura binaria |  Sí |  Sí |  Lanza `FileNotFoundError` |  **Preserva bytes anteriores** | Inicio (byte 0) |
+| `'w+b'`| Escritura/lectura binaria |  Sí |  Sí |  Sí lo crea |  **TRUNCA A 0 BYTES** | Inicio (byte 0) |
+| `'a+b'`| Anexar/lectura binaria |  Sí |  Sí |  Sí lo crea |  **Preserva bytes anteriores** | Final del archivo |
 
 > [!CAUTION] Distinción Crítica entre `'r+'`, `'w+'` y `'a+'`
 > * `'r+'`: Abre para lectura y escritura sin borrar nada. La escritura sobreescribe byte a byte en la posición actual del cursor.
@@ -161,7 +163,7 @@ flowchart TD
 
 ## 4. Anatomía y Control del Puntero de Archivo (seek y tell)
 
-### 4.1 Localización del Cursor con `archivo.tell()` 📖 🌐
+### 4.1 Localización del Cursor con `archivo.tell()`  
 El método `.tell()` retorna un número entero que indica la **posición actual del puntero** medida en bytes desde el inicio del archivo:
 
 ```python
@@ -171,7 +173,7 @@ with open("datos.txt", "w", encoding="utf-8") as f:
     print(f"Puntero tras escribir 'Hola': byte {posicion}")  # Byte 4
 ```
 
-### 4.2 Desplazamiento del Cursor con `archivo.seek(offset, whence)` 📖 🌐
+### 4.2 Desplazamiento del Cursor con `archivo.seek(offset, whence)`  
 El método `.seek()` permite mover manualmente el cursor para releer o sobreescribir datos:
 
 ```python
@@ -203,11 +205,11 @@ with open("ejemplo.txt", "w+", encoding="utf-8") as f:
 
 ## 5. Estrategias de Lectura y Eficiencia de Memoria O(1)
 
-### 5.1 Comparativa de Métodos de Lectura 🎓 📖
+### 5.1 Comparativa de Métodos de Lectura  
 
 ```python
 # 1. archivo.read() -> Carga TODO el contenido en una única cadena str en memoria RAM.
-# ⚠️ PELIGROSO en archivos grandes (ej. 5 GB agotarán la memoria RAM).
+#  PELIGROSO en archivos grandes (ej. 5 GB agotarán la memoria RAM).
 with open("datos.txt", "r", encoding="utf-8") as f:
     todo_el_texto: str = f.read()
 
@@ -216,16 +218,16 @@ with open("datos.txt", "r", encoding="utf-8") as f:
     primera_linea: str = f.readline()
 
 # 3. archivo.readlines() -> Lee todas las líneas y las almacena en una lista list[str].
-# ⚠️ Sigue cargando todo el archivo completo en memoria RAM en forma de lista.
+#  Sigue cargando todo el archivo completo en memoria RAM en forma de lista.
 with open("datos.txt", "r", encoding="utf-8") as f:
     todas_las_lineas: list[str] = f.readlines()
 ```
 
-### 5.2 La Regla de Oro: Iterador Perezoso `for linea in archivo` 🎓 📖 🌐
+### 5.2 La Regla de Oro: Iterador Perezoso `for linea in archivo`   
 La forma idiomática y profesional en Python para recorrer cualquier archivo de texto es iterar directamente sobre el objeto archivo:
 
 ```python
-# ✅ RECORRIDO EN STREAMING CON MEMORIA O(1)
+#  RECORRIDO EN STREAMING CON MEMORIA O(1)
 with open("datos/produccion.txt", "r", encoding="utf-8") as archivo:
     for numero_linea, linea in enumerate(archivo, start=1):
         # Procesa una sola línea a la vez. Memoria RAM constante e insignificante.
@@ -239,7 +241,7 @@ with open("datos/produccion.txt", "r", encoding="utf-8") as archivo:
 
 ## 6. Formatos Delimitados, Limpieza y Mapeo Bidireccional a Diccionarios
 
-### 6.1 El Problema del Salto de Línea y la Dupla `.strip()` + `.split(";")` 🎓 📖
+### 6.1 El Problema del Salto de Línea y la Dupla `.strip()` + `.split(";")`  
 Cuando se lee una línea de un archivo de texto plano, el final contiene el carácter de salto de línea `\n` (o `\r\n`):
 
 ```python
@@ -257,7 +259,7 @@ campos: list[str] = linea_limpia.split(";")
 > [!IMPORTANT] ¿Por qué nunca omitir `.strip()` antes de `.split()`?
 > Si omites `.strip()`, el último campo retendrá el salto de línea (ej. `'Pendiente\n'`). Al intentar convertir campos cuantitativos finales a enteros (`int('25000\n')` puede tolerarse, pero comparaciones de cadenas `if estado == 'Pendiente':` fallarán silenciosamente porque `'Pendiente\n' != 'Pendiente'`).
 
-### 6.2 Sanitización de Entradas y Prevención de Inyección de Delimitadores 🎓 🌐
+### 6.2 Sanitización de Entradas y Prevención de Inyección de Delimitadores  
 En el código de cátedra docente (`solucion_ventas.py`), se introduce una técnica fundamental para evitar la corrupción del archivo delimitado:
 * Si el usuario escribe `"Gómez; Juan"` en el campo de cliente o producto, el delimitador `;` creará una columna extra fantasma al guardar el registro en el archivo de texto, rompiendo `len(datos) == 6` en la lectura.
 * Si el usuario ingresa caracteres de control como saltos de línea (`\n` o `\r`), el registro se partirá en dos líneas físicas distintas en el archivo.
@@ -278,7 +280,7 @@ def solicitar_texto(mensaje: str) -> str:
             return texto
 ```
 
-### 6.3 Validación Defensiva GIGO (*Garbage In, Garbage Out*) 🎓 📖 🌐
+### 6.3 Validación Defensiva GIGO (*Garbage In, Garbage Out*)   
 En sistemas de producción, nunca se debe confiar ciegamente en que el archivo de texto esté bien formado. Se debe aplicar validación exhaustiva:
 
 ```python
@@ -332,7 +334,7 @@ def convertir_linea_a_diccionario(linea: str) -> Producto:
     }
 ```
 
-### 6.4 Validación Cruzada de Integridad Aritmética (*Cross-Field Validation*) 🎓
+### 6.4 Validación Cruzada de Integridad Aritmética (*Cross-Field Validation*) 
 Cuando un archivo almacena campos calculados (como el campo `total` en `solucion_ventas.py`), un lector robusto debe verificar que los valores almacenados sean coherentes con la lógica de negocio:
 
 ```python
@@ -346,7 +348,7 @@ if total != calcular_total(valor_unitario, cantidad):
     # Se omite la línea corrupta o se repara automáticamente.
 ```
 
-### 6.5 Generación de Marcas Temporales con `datetime.date.today().isoformat()` 🎓 🌐
+### 6.5 Generación de Marcas Temporales con `datetime.date.today().isoformat()`  
 Para registrar automáticamente la fecha de cada transacción sin depender de la entrada manual del usuario:
 
 ```python
@@ -357,7 +359,7 @@ fecha_actual = date.today().isoformat()
 print(f"Fecha registrada: {fecha_actual}")  # Ej: '2026-08-12'
 ```
 
-### 6.6 Mapeo Bidireccional: Memoria $\leftrightarrow$ Archivo Persistente 🎓
+### 6.6 Mapeo Bidireccional: Memoria $\leftrightarrow$ Archivo Persistente 
 
 ```mermaid
 flowchart LR
@@ -383,13 +385,13 @@ def convertir_diccionario_a_linea(prod: Producto) -> str:
 
 ## 7. Mecánica CRUD en Archivos Planos: Modificación y Eliminación Atómica
 
-### 7.1 La Naturaleza Física del Almacenamiento Secuencial 📖 🌐
+### 7.1 La Naturaleza Física del Almacenamiento Secuencial  
 Una de las dudas más frecuentes en programación es: **"¿Por qué no existe una función `archivo.delete_line(3)` o `archivo.replace_word('Mesa', 'Silla')`?"**
 
 **Explicación Fundamental:**
 En un archivo de texto en disco, los bytes están almacenados contiguamente en sectores físicos. Si la línea 3 mide 30 bytes y la reemplazas por un texto de 45 bytes, **los 15 bytes adicionales sobreescribirán y corromperán el inicio de la línea 4**. No se pueden "empujar" físicamente los bytes subsecuentes en un archivo plano sin reescribir todo el contenido posterior.
 
-### 7.2 Patrón 1: Carga en Memoria $\to$ Modificación $\to$ Reescritura Total (`'w'`) 🎓
+### 7.2 Patrón 1: Carga en Memoria $\to$ Modificación $\to$ Reescritura Total (`'w'`) 
 Para archivos de tamaño pequeño a moderado (miles de registros, órdenes del semestre, inventarios locales), el patrón estándar es:
 
 ```python
@@ -421,7 +423,7 @@ def actualizar_estado_en_memoria(ruta_archivo: str, id_objetivo: int, nuevo_esta
     return True
 ```
 
-### 7.3 Patrón 2: Streaming con Archivo Temporal y Reemplazo Atómico (`os.replace`) 📖 🌐
+### 7.3 Patrón 2: Streaming con Archivo Temporal y Reemplazo Atómico (`os.replace`)  
 Para sistemas donde el archivo puede ser grande o donde un corte de energía durante la escritura en modo `'w'` destruiría los datos (*Race Conditions* / *Data Corruption*), se aplica el **Patrón de Reemplazo Atómico**:
 
 ```python
@@ -463,7 +465,7 @@ def eliminar_registro_atomico(ruta_archivo: Path, id_a_eliminar: int) -> bool:
 
 ## 8. Rutas Orientadas a Objetos con pathlib.Path vs os.path
 
-### 8.1 Comparativa de Paradigmas 📖 🌐
+### 8.1 Comparativa de Paradigmas  
 Python 3.4 introdujo el módulo `pathlib` (**PEP 428**), que reemplaza la manipulación arcaica de cadenas de texto con `os.path` por objetos con métodos nativos:
 
 | Operación | Enfoque Clásico (`os` / `os.path`) | Enfoque Moderno (`pathlib.Path`) |
@@ -493,7 +495,7 @@ if not ARCHIVO_PRODUCCION.exists():
 
 ## 9. Técnicas Avanzadas de Procesamiento Masivo (Corte de Control, Apareo y JSON)
 
-### 9.1 Técnica de Corte de Control (*Control Break Processing*) 📖
+### 9.1 Técnica de Corte de Control (*Control Break Processing*) 
 El **Corte de Control** es un algoritmo clásico de las Ciencias de la Computación (originado en procesamiento por lotes en Mainframes y consolidado en el texto de **FIUBA**) para procesar archivos masivos ordenados por una clave sin cargar el archivo a la RAM:
 
 **Precondición:** El archivo debe estar previamente ordenado por la clave de corte (por ejemplo, ordenado por `area`).
@@ -555,7 +557,7 @@ def corte_de_control_por_area(ruta_ordenada: Path) -> None:
         print(f"{'='*50}")
 ```
 
-### 9.2 Apareo de Archivos (*Two-Way File Merge*) 📖
+### 9.2 Apareo de Archivos (*Two-Way File Merge*) 
 Permite combinar dos archivos secuenciales ordenados en un único archivo de salida ordenado con complejidad temporal óptima $\mathcal{O}(N + M)$ y memoria $\mathcal{O}(1)$:
 
 ```python
@@ -589,7 +591,7 @@ def aparear_archivos_produccion(ruta_a: Path, ruta_b: Path, ruta_salida: Path) -
             linea_b = fb.readline()
 ```
 
-### 9.3 Serialización Estructurada con JSON (`json.dump` / `json.load`) 📖 🌐
+### 9.3 Serialización Estructurada con JSON (`json.dump` / `json.load`)  
 Cuando los registros poseen estructuras jerárquicas complejas (listas anidadas, diccionarios dentro de diccionarios), el formato delimitado por `;` se vuelve insuficiente. Se utiliza el estándar **JSON** (*JavaScript Object Notation*):
 
 ```python
@@ -614,7 +616,7 @@ def importar_de_json(ruta_json: Path) -> list[Producto]:
 
 A continuación se analizan los dos sistemas de referencia del curso, ilustrando dos arquitecturas de interacción en consola:
 
-### 10.1 Caso de Estudio A: Sistema Continuo de Control de Órdenes de Producción 🎓
+### 10.1 Caso de Estudio A: Sistema Continuo de Control de Órdenes de Producción 
 
 ```python
 """Módulo de Control de Órdenes de Producción — Taller de Programación II.
@@ -748,7 +750,7 @@ def actualizar_estado(productos: list[Producto]) -> None:
         return
     orden["estado"] = nuevo_estado
     reescribir_archivo(productos)
-    print(f"✅ Orden ID {id_obj} actualizada a '{nuevo_estado}'.")
+    print(f" Orden ID {id_obj} actualizada a '{nuevo_estado}'.")
 
 def eliminar_producto(productos: list[Producto]) -> None:
     """Elimina una orden confirmada por ID y sincroniza el archivo en disco."""
@@ -769,7 +771,7 @@ def eliminar_producto(productos: list[Producto]) -> None:
     if conf in {"s", "si"}:
         productos.pop(pos)
         reescribir_archivo(productos)
-        print(f"✅ Orden ID {id_obj} eliminada exitosamente.")
+        print(f" Orden ID {id_obj} eliminada exitosamente.")
     else:
         print("Operación cancelada.")
 
@@ -821,12 +823,12 @@ def agregar_orden_interactiva() -> None:
     with ARCHIVO_PRODUCCION.open("a", encoding="utf-8") as f:
         f.write(convertir_diccionario_a_linea(nueva_orden) + "\n")
         
-    print(f"✅ Orden {siguiente_id} guardada exitosamente en disco.")
+    print(f" Orden {siguiente_id} guardada exitosamente en disco.")
 ```
 
 ---
 
-### 10.2 Caso de Estudio B: Registro de Ventas de la Feria y Lotes Fijos (`solucion_ventas.py`) 🎓
+### 10.2 Caso de Estudio B: Registro de Ventas de la Feria y Lotes Fijos (`solucion_ventas.py`) 
 
 Este caso modela el código de cátedra oficial entregado por el profesor. Presenta una arquitectura procedural limpia basada en **funciones auxiliares especializadas** y un **bucle de captura por lote fijo** (`for numero in range(3)`):
 
@@ -995,7 +997,7 @@ if __name__ == "__main__":
 
 ## 11. Diagnóstico, Jerarquía de Excepciones y Filosofía EAFP
 
-### 11.1 Árbol Jerárquico de Excepciones de Entrada/Salida 📖 🌐
+### 11.1 Árbol Jerárquico de Excepciones de Entrada/Salida  
 
 ```mermaid
 graph TD
@@ -1008,7 +1010,7 @@ graph TD
     Exception --> ValueError["ValueError / UnicodeDecodeError<br/>Error de formato o decodificación de bytes"]
 ```
 
-### 11.2 Filosofía EAFP vs. LBYL 📖 🌐
+### 11.2 Filosofía EAFP vs. LBYL  
 * **LBYL (*Look Before You Leap*):** Comprobar todas las condiciones antes de actuar (`if os.path.exists(...)`). Puede sufrir de condiciones de carrera (*Race Conditions*) si otro proceso elimina el archivo entre la comprobación y la apertura.
 * **EAFP (*Easier to Ask for Forgiveness than Permission*):** Intentar la operación directamente dentro de un bloque `try-except`. Es el estándar preferido en Python:
 
@@ -1111,3 +1113,23 @@ Porque los archivos planos en disco no poseen motores de base de datos con restr
 </details>
 
 ---
+
+##  Conexiones del Grafo (SCC=1)
+
+*  [Dashboard Taller de Programación II](taller_programacion_ii_dashboard.md)
+*  [Nota Maestra 3: Archivos CSV en Python](Archivos_CSV_Python.md)
+*  [Nota Maestra 1: Repaso de Programación I](Repaso_Programacion_I.md)
+*  [Directorio General de Soluciones y Espacio de Trabajo](README.md)
+*  [Script Modular de Producción (programa_produccion.py)](programa_produccion.py.md)
+*  [Solución Oficial Docente: Registro de Ventas (solucion_ventas.py)](solucion_ventas.py.md)
+*  [Cuaderno Jupyter Formal de Producción](Solucion_Guia_Manejo_Archivos_Produccion.ipynb.md)
+*  [Cuaderno Jupyter: Guía Básica Paso a Paso](Solucion_Guia_Basica_Paso_a_Paso_Archivos_TXT.ipynb.md)
+*  [Cuaderno Jupyter: Guía Práctica de Ejercicios TXT](Solucion_Guia_Practica_Ejercicios_Archivos_TXT.ipynb.md)
+*  [Nota Maestra FIUBA: Algoritmos y Persistencia](Apunte_Teorico_Python_FIUBA_Maestro.md)
+*  [Nota Maestra: Python para Ciencia y Tecnología](Python_para_Ciencia_y_Tecnologia_Maestro.md)
+*  [Active Context](Active_Context.md)
+
+---
+ [Panel de Control Unificado](Home.md)
+
+

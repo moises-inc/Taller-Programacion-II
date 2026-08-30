@@ -1,11 +1,13 @@
 ---
-title: Nota Maestra: Repaso de Programación I y Conexión a Archivos
+id: repaso-programacion-i-tp2
+title: "Nota Maestra: Repaso de Programación I y Conexión a Archivos"
 asignatura: Taller de Programación II
 fecha: 2026-08-05
+tags: [poo, python, variables, condicionales, ciclos, funciones, listas, taller_programacion_ii]
+status: activo
 ---
 
-
-# 🗂️ Nota Maestra: Repaso de Programación I y Conexión a Archivos
+#  Nota Maestra: Repaso de Programación I y Conexión a Archivos
 
 > [!NOTE] Guía rápida para ti (Moisés)
 > Esta nota resume la **Clase 1 de Taller de Programación II** (semana de repaso). Está dividida en **pasos pequeños y secuenciales** para que cada idea cierre antes de pasar a la siguiente. No necesitas memorizarla: basta con saber **en qué sección buscar** cuando programes.
@@ -27,7 +29,7 @@ En cada ejecución, tu programa recibe **datos de entrada**, toma **decisiones**
 > [!NOTE] Meta del repaso
 > Usar estas piezas (variables, condicionales, ciclos, listas y funciones) para **leer, procesar y guardar** información de forma ordenada. El caso conductor de toda la clase es el **registro de ventas de una feria**.
 
-📌 **Índice del repaso:**
+ **Índice del repaso:**
 - **01** Variables → guardar datos
 - **02** Condicionales → tomar decisiones
 - **03** Ciclos → repetir tareas
@@ -67,18 +69,18 @@ largo = len("amarillo")   # largo de un texto -> 8
 1. **¿Qué dato debo guardar?** Por ejemplo: nombre, monto, fecha o estado.
 2. **¿Qué tipo representa mejor ese dato?** Evita mezclar texto con números.
 
-### 1.4 ⚠️ El peligro común: `input()` sin convertir
+### 1.4  El peligro común: `input()` sin convertir
 
 `input()` **siempre devuelve texto** (un `str`), aunque el usuario escriba un número. Si intentas sumar, Python **une los textos** en lugar de sumar los números.
 
-**❌ MAL (no hace la suma):**
+** MAL (no hace la suma):**
 ```python
 monto1 = input("Primer monto: ")   # "1500"
 monto2 = input("Segundo monto: ")  # "800"
 print(monto1 + monto2)             # "1500800"  <- unió textos
 ```
 
-**✅ BIEN (se convierte con `float()`):**
+** BIEN (se convierte con `float()`):**
 ```python
 monto1 = float(input("Primer monto: "))   # 1500.0
 monto2 = float(input("Segundo monto: "))  # 800.0
@@ -91,14 +93,17 @@ print(monto1 + monto2)                     # 2300.0  <- suma real
 ### 1.5 Tipado dinámico vs. tipado estático
 
 - **Tipado dinámico (Python):** la variable **no declara su tipo**; el tipo se **infiere al asignar** y puede cambiar con el tiempo:
-  ```python
-  x = 5        # int
-  x = "Hola"   # ahora str (¡Python lo permite!)
-  ```
+
+```python
+x = 5        # int
+x = "Hola"   # ahora str (¡Python lo permite!)
+```
+
 - **Tipado estático (Java, C++):** el tipo se **declara al inicio** y no puede cambiar sin conversión explícita:
-  ```java
-  int x = 5;   // el tipo queda fijado al declarar
-  ```
+
+```java
+int x = 5;   // el tipo queda fijado al declarar
+```
 
 **En resumen:** Python es dinámico: más flexible, pero el programador debe vigilar qué tipo guarda cada variable. Si mezclas tipos, aplica **conversión explícita** con `int()`, `float()` o `str()`.
 
@@ -110,7 +115,7 @@ print(monto1 + monto2)                     # 2300.0  <- suma real
 
 Antes de procesar o **guardar** un dato, verifica que cumpla las **reglas del problema**.
 
-> 🔴 **GIGO = Garbage In, Garbage Out** (*"Basura entra, basura sale"*)
+>  **GIGO = Garbage In, Garbage Out** (*"Basura entra, basura sale"*)
 > Valida la entrada ANTES de procesar. Un dato inválido que entra a un archivo complicará todo el programa restante.
 
 ### 2.2 Operadores relacionales (comparan)
@@ -165,7 +170,7 @@ else:
     print("Debes mejorar")
 ```
 
-> ⚠️ **Atención con la sangría (indentación).** La indentación le dice a Python qué instrucciones **pertenecen** al `if`. Sé consistente: no mezcles espacios y tabs.
+>  **Atención con la sangría (indentación).** La indentación le dice a Python qué instrucciones **pertenecen** al `if`. Sé consistente: no mezcles espacios y tabs.
 
 ### 2.5 Piensa la condición como una pregunta
 
@@ -217,8 +222,8 @@ for venta in ventas:
 
 | Colección | Mutable | Uso recomendado |
 | :--- | :--- | :--- |
-| **Lista** `[ ]` | ✅ Sí (agregar, quitar, modificar) | Colecciones que cambian (`ventas_del_dia`) |
-| **Tupla** `( )` | ❌ No (inmutable, no cambia) | Valores que van **juntos** por naturaleza (`(producto, monto)`) |
+| **Lista** `[ ]` |  Sí (agregar, quitar, modificar) | Colecciones que cambian (`ventas_del_dia`) |
+| **Tupla** `( )` |  No (inmutable, no cambia) | Valores que van **juntos** por naturaleza (`(producto, monto)`) |
 
 **Listas — crear, agregar, range:**
 ```python
@@ -251,7 +256,7 @@ for venta in ventas:           # 2. repetir por cada dato
 print("Total:", total)         # 4. mostrar -> Total: 45700
 ```
 
-> 💡 **Variantes del patrón** (vistas en las diapositivas de ciclos):
+>  **Variantes del patrón** (vistas en las diapositivas de ciclos):
 > - **Sumar**: `total = total + n`
 > - **Multiplicar**: `prod = prod * n`
 > - **Contar**: `cuenta = cuenta + 1`
@@ -277,7 +282,7 @@ def calcular_total(ventas):
     return total
 ```
 
-> 📖 **Lee la función como una oración:** *"calcular_total recibe ventas y devuelve un total"*. La función encapsula **cómo**; el programa principal expresa **qué**.
+>  **Lee la función como una oración:** *"calcular_total recibe ventas y devuelve un total"*. La función encapsula **cómo**; el programa principal expresa **qué**.
 
 **Una buena función tiene UNA responsabilidad:** validar, calcular, leer o guardar.
 
@@ -294,21 +299,21 @@ resultado = calcular_total(ventas)   # llamada que guarda el retorno
 print(resultado)                      # mostrar en pantalla
 ```
 
-### 4.3 ⚠️ Advertencia crucial: `print` vs. `return`
+### 4.3  Advertencia crucial: `print` vs. `return`
 
 Esta es la diferencia **técnica más importante** del repaso:
 
 - `print(valor)` → **muestra** el valor por pantalla. *Efecto visual.* El programa NO recuerda el valor después de mostrarlo.
 - `return valor` → **entrega** el valor al código que llamó a la función. Ese valor puede guardarse en una variable, pasarse a otra función o usarse en un cálculo. *Pensado para la lógica y la reutilización.*
 
-**❌ MAL (no reutilizable):**
+** MAL (no reutilizable):**
 ```python
 def perimetro(r):
     resultado = 2 * 3.14 * r
     print(resultado)       # solo muestra; nadie puede usar "resultado"
 ```
 
-**✅ BIEN (reutilizable):**
+** BIEN (reutilizable):**
 ```python
 def area_circulo(r):
     return 3.1416 * r ** 2
@@ -625,3 +630,21 @@ def area_return(r):
 ---
 
 ---
+
+##  Conexiones del Grafo (SCC=1)
+
+-  [Dashboard Taller de Programación II](taller_programacion_ii_dashboard.md)
+-  [Setup Prompt — Taller Programación II](Setup_Prompt.md)
+-  [Nota Maestra: Manejo de Archivos en Python](Manejo_Archivos_Python.md)
+-  [II° Semestre Dashboard](II_Semestre_Dashboard.md)
+
+> [!HINT] Fuentes procesadas
+> - `Teoria/Unidad_0_Repaso/Repaso_Taller_Programacion_1_AnteSala_TP2.pdf` (.pptx) · Clase 1
+> - `Teoria/Unidad_0_Repaso/Variables y Condicionales.pdf` (.pptx)
+> - `Teoria/Unidad_0_Repaso/Python Ciclos While.pdf` (.pptx)
+> - `Teoria/Unidad_0_Repaso/Python Listas Tuplas.pdf` (.pptx)
+> - `Teoria/Unidad_0_Repaso/Funciones y Metodos.pdf` (.pptx)
+
+---
+ [Panel de Control Unificado](Home.md)
+
