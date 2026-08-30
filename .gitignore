@@ -1,0 +1,20 @@
+# Cachés y artefactos de ejecución
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.virtual_documents/
+.ruff_cache/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Sensible data local (nunca publicar)
+.secrets/
+credentials.json
+.env
+
+# Notas internas de la bóveda y configuración local
+.system_generated/
+.gemini/
+obsidian/

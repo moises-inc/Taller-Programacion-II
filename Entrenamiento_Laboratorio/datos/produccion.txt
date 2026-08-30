@@ -1,0 +1,5 @@
+1;Silla Ergonomica;Muebles;15;25000;Pendiente
+2;Mesa;Muebles;5;45000;Completada
+3;Escritorio;Oficina;8;70000;En Proceso
+4;Lampara;Iluminacion;20;12000;Pendiente
+5;Estante;Bodega;6;35000;Pendiente
